@@ -1,10 +1,26 @@
 ---
 # file: prep.yml
-# @dlbewley
 # Playbook to prep OpenShift Enterprise hosts for installation. Run this before
 # the openshift-ansible byo playbook.
 - hosts: all
   tasks:
+  - redhat_subscription: state=present username={{rhnuser}} password={{rhnpassword}}
+
+
+
+
+  - name: Retrieve the OpenShift Pool ID
+    command: subscription-manager list --available --matches="Employee SKU" --pool-only
+    register: openshift_pool_id
+    changed_when: False
+
+  - name: Attach to OpenShift Pool
+    command: subscription-manager attach --pool={{ openshift_pool_id.stdout_lines[0] }}
+  - name: disable
+    command: subscription-manager repos --disable="*"
+  - name: enable
+    command:  subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.1-rpms"
+
   - name: Install Basic Preqes
     yum:
       name: "{{ item }}"
@@ -22,7 +38,39 @@
       - python
       - python-virtualenv
       - wget
-      - :docker
+      - docker
+  - name: stop docker
+    service:
+      name: docker
+      state: stopped
+  - name: delete /var/lib/docker
+    command: rm -rf /var/lib/docker
+  - name: check to see if /dev/sdb exists
+    command: test -e /dev/sdb
+    register: sdb_check
+    ignore_errors: yes
+
+  - debug: var=sdb_check
+
+  - name: copy the docker-storage-setup config file
+    copy:
+      src: docker-storage-setup
+      dest: /etc/sysconfig/docker-storage-setup
+      owner: root
+      group: root
+      mode: 0664
+
+  - name: docker storage setup
+    command: docker-storage-setup
+    register: setup_output
+
+  - debug: var=setup_output
+
+  - name: start docker
+    command: systemctl start docker.service
+    register: dockerstart
+
+  - debug: var=dockerstart
   - name: OpenShift use nfs files
     seboolean:
       name: virt_use_nfs
