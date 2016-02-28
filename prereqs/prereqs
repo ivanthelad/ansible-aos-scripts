@@ -22,6 +22,7 @@
       - python
       - python-virtualenv
       - wget
+      - :docker
   - name: OpenShift use nfs files
     seboolean:
       name: virt_use_nfs
