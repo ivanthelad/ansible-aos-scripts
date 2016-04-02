@@ -1,0 +1,13 @@
+## ansible-playbook  -i inventory playbooks/add_lv.yml  --user=vagrant  --private-key=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key   --key-file=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key  --become-method=sudo --become
+- hosts: nodes
+  roles:
+    - { role: lv_create, create_lvname: 'ose-lv', create_vgname: 'docker_vg', new_mntp: '/var/lib/origin/openshift.local.etcd/', create_lvsize: '256' }
+    - { role: lv_create, create_lvname: 'registry-lv', create_vgname: 'docker_vg', new_mntp: '/mnt/registry', create_lvsize: '50' }
+
+
+
+
+
+
+
+

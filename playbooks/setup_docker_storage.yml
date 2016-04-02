@@ -1,0 +1,3 @@
+- hosts: nodes
+  roles:
+    - { role: storage_docker }

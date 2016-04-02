@@ -1,0 +1,25 @@
+[defaults]
+host_key_checking=False
+private_key_file=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key
+remote_user=vagrant
+ansible_ssh_user=vagrant
+[dns]
+192.168.144.3
+[nodes]
+192.168.144.2
+192.168.144.3
+192.168.144.4
+[masters]
+192.168.144.2
+[privilege_escalation]
+become=yes
+become_method=sudo
+[vars]
+# SSH user, this user should allow ssh based auth without requiring a
+# password. If using ssh key based auth, then the key should be managed by an
+# ssh agent.
+remote_user=vagrant
+ansible_ssh_user=vagrant 
+# If ansible_ssh_user is not root, ansible_sudo must be set to true and the
+# user must be configured for passwordless sudo
+private_key_file=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key

@@ -1,0 +1,14 @@
+#ansible-playbook  -i inventory playbooks/install_prereqs.yml  --user=vagrant  --private-key=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key   --key-file=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key  --become-method=sudo --become
+- hosts: masters
+  tasks:
+  - name: Install Master stuff
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - atomic-openshift-utils  
+  - name: upgrade all packages
+    yum: name=* state=latest
+- hosts: nodes
+  roles:
+    - { role: prereqs }

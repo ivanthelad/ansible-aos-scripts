@@ -1,5 +1,3 @@
-# roles/dnsmasq/tasks/main.yml
----
 - name: Install Dnsmasq
   yum:
     pkg: dnsmasq
@@ -10,8 +8,15 @@
   template:
     src: dnsmasq.conf
     dest: /etc/dnsmasq.conf
-  notify: restart dnsmasq
   tags: dnsmasq
+
+- name: Apache | add apache iptable rule
+  command: /sbin/iptables -I INPUT -p udp -m udp --dport 53 -j ACCEPT 
+  sudo: true
+
+- name: save iptables
+  command: iptables-save
+  sudo: true
 
 - name: Make sure Dnsmasq is running
   service:

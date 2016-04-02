@@ -1,0 +1,14 @@
+## ansible-playbook  -i inventory ^Caybooks/install.yml   --private-key=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key   --key-file=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key  --become-method=sudo --become
+- hosts: dns
+
+  pre_tasks:
+    - shell: echo 'hello'
+
+  roles:
+    - { role: dnsmasq }
+
+  tasks:
+    - shell: echo 'still busy'
+
+  post_tasks:
+    - shell: echo 'goodbye'
