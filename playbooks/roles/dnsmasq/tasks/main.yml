@@ -9,6 +9,11 @@
     src: dnsmasq.conf
     dest: /etc/dnsmasq.conf
   tags: dnsmasq
+- name: Set configuration filei upstream
+  template:
+    src: resolv.upstream.j2
+    dest: /etc/resolv.conf.upstream 
+  tags: dnsmasq
 
 - name: Apache | add apache iptable rule
   command: /sbin/iptables -I INPUT -p udp -m udp --dport 53 -j ACCEPT 

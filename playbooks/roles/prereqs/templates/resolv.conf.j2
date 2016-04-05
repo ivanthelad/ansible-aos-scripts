@@ -1,0 +1,10 @@
+#
+# resolver configuration file...
+#
+options         timeout:1 attempts:8 rotate
+domain          {{domainname}}
+search          {{domainname}} {{ searchdomain | join (' ') }}
+ 
+{% for host in nameservers %}
+nameserver {{host}}
+{% endfor %}

@@ -1,0 +1,23 @@
+---
+# file: prep.yml
+# @dlbewley
+# Playbook to prep OpenShift Enterprise hosts for installation. Run this before
+# the openshift-ansible byo playbook.
+- name: setproxy docker and nodes
+  lineinfile:
+    dest: '{{ item[0] }}'
+    regexp: '^{{ item[1] }}'
+    line: '{{ item[1] }}={{ openshift_httpproxy }}'
+  with_nested:
+      - [ '{{ proxfile }}' ]
+      - [ 'HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy' ]
+- name: setnoproxy
+  lineinfile:
+    dest: '{{ item[0] }}'
+    regexp: '^{{ item[1] }}'
+    line: '{{ item[1] }}={{ openshift_noproxy }}'
+  with_nested:
+      - [ '{{ proxfile }}'  ]
+      - [ 'NO_PROXY' ]
+
+

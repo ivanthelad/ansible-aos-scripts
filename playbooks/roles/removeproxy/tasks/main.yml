@@ -1,0 +1,8 @@
+- name: remove proxy setting 
+  lineinfile:
+    dest: '{{ item[0] }}'
+    regexp: '^{{ item[1] }}'
+    state: absent
+  with_nested:
+   - [ '{{ proxfile }}' ]
+   - [ 'NO_PROXY', 'HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy' ]

@@ -1,0 +1,25 @@
+- hosts: dns
+  roles:
+    - { role: dnsmasq }
+- hosts: masters
+  tasks:
+  - name: Install Master stuff
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - atomic-openshift-utils
+  - name: upgrade all packages
+    yum: name=* state=latest
+- hosts: nodes
+  roles:
+    - { role: prereqs }
+- hosts: nodes
+  roles:
+    - { role: storage_docker }
+
+
+
+
+
+

@@ -1,10 +1,13 @@
 - redhat_subscription: state=present username={{rhnuser}} password={{rhnpassword}}
+  ignore_errors: yes
 - name: Retrieve the OpenShift Pool ID
   command: subscription-manager list --available --matches="Employee SKU" --pool-only
   register: openshift_pool_id
+ # ignore_errors: yes 
   changed_when: False
 
 - name: Attach to OpenShift Pool
+ # ignore_errors: yes
   command: subscription-manager attach --pool={{ openshift_pool_id.stdout_lines[0] }}
 - name: disable
   command: subscription-manager repos --disable="*"

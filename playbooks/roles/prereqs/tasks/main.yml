@@ -2,6 +2,8 @@
 # file: prep.yml
 # Playbook to prep OpenShift Enterprise hosts for installation. Run this before
 # the openshift-ansible byo playbook.
+- name: resolv.conf | Configuration file2, /etc/resolv.conf
+  action: template src=templates/resolv.conf.j2 dest=/etc/resolv.conf
 - name: Install Basic Preqes
   yum:
     name: "{{ item }}"
@@ -9,6 +11,7 @@
   with_items:
 #    - atomic-openshift-utils
     - bind-utils
+    - httpd-tools 
     - bridge-utils
     - docker
     - gcc
@@ -21,13 +24,18 @@
     - wget
     - docker
     - libsemanage-python
+    - vim
 - name: upgrade all packages
   yum: name=* state=latest
+- name: install specific version of docker on all node. this is due to bug
+  command: yum downgrade docker-1.8.2 -y
 - name: OpenShift use nfs files
   seboolean:
     name: virt_use_nfs
     state: no
     persistent: yes
+- name: resolv.conf | Configuration file, /etc/resolv.conf
+  action: template src=templates/resolv.conf.j2 dest=/etc/resolv.conf
 - name: Remove swaps from fstab
   lineinfile:
     dest: /etc/fstab

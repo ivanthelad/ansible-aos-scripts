@@ -1,0 +1,14 @@
+## ansible-playbook  -i inventory playbooks/subscribe:.yml   --private-key=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key   --key-file=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key  --become-method=sudo --become
+- hosts: all
+
+  pre_tasks:
+    - shell: echo 'hello'
+
+  roles:
+    - { role: subscribe, rhnuser: "", rhnpassword: "" }
+
+  tasks:
+    - shell: echo 'still busy'
+
+  post_tasks:
+    - shell: echo 'goodbye'

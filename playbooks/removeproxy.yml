@@ -1,0 +1,18 @@
+- hosts: masters
+  roles:
+    - { role: removeproxy, proxfile: "/etc/sysconfig/docker" }
+    - { role: removeproxy, proxfile: "/etc/sysconfig/atomic-openshift-master" }
+#  tasks:
+#  - name: restart master
+#    service: name=atomic-openshift-master state=restarted
+#  - name: restart docker
+#    service: name=docker state=restarted
+- hosts: nodes
+  roles:
+    - { role: removeproxy, proxfile: "/etc/sysconfig/docker" }
+    - { role: removeproxy, proxfile: "/etc/sysconfig/atomic-openshift-node" }
+#  tasks:
+#  - name: restart node
+#    service: name=atomic-openshift-node state=restarted
+#  - name: restart docker
+#    service: name=docker state=restarted
