@@ -1,16 +1,15 @@
-[defaults]
-host_key_checking=False
-private_key_file=/Users/imckinle/Projects/openshift/vagrant-openshift-multihost/ose.key
-remote_user=vagrant
-ansible_ssh_user=vagrant
 
+#[all]
+#192.168.144.2
+#192.168.144.3
+#192.168.144.4
 [dns]
-192.168.144.3
+192.168.144.4
 
 [nodes]
 192.168.144.2
 192.168.144.3
-192.168.144.4
+#192.168.144.4
 
 [masters]
 192.168.144.2
