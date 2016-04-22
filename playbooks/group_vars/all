@@ -1,3 +1,8 @@
 openshift_noproxy: "mhgaster.example.com,192.168.59.200"
 openshift_httpproxy: "ivan proyy"
+docker_storage_device: /dev/sdb
+create_vgname: docker_vg
+filesystem: 'ext4'
+#create_lvsize: '80%FREE'
+create_lvsize: '2g'
 

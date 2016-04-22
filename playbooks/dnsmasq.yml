@@ -1,0 +1,6 @@
+- hosts: dns
+  tasks:
+#  - service: name=NetworkManager state=stopped
+#  - service: name=NetworkManager enabled=no
+  roles:
+    - { role: dnsmasq }

@@ -10,23 +10,20 @@
     state: present
   with_items:
 #    - atomic-openshift-utils
-    - bind-utils
-    - httpd-tools 
-    - bridge-utils
-    - docker
-    - gcc
-    - git
-    - iptables-services
-    - net-tools
-    - openssh-clients
-    - python
-    - python-virtualenv
     - wget
+    - git
+    - net-tools
+    - bind-utils
+    - iptables-services
+    - bridge-utils
+    - bash-completion
+    - httpd-tools 
     - docker
-    - libsemanage-python
     - vim
 - name: upgrade all packages
   yum: name=* state=latest
+#- service: name=NetworkManager state=stopped
+#- service: name=NetworkManager enabled=no
 - name: install specific version of docker on all node. this is due to bug
   command: yum downgrade docker-1.8.2 -y
 - name: OpenShift use nfs files
@@ -36,6 +33,8 @@
     persistent: yes
 - name: resolv.conf | Configuration file, /etc/resolv.conf
   action: template src=templates/resolv.conf.j2 dest=/etc/resolv.conf
+- name: networkManager.conf | Configuration file, /etc/NetworkManager/NetworkManager.conf
+  action: template src=templates/networkManager.j2 dest=/etc/NetworkManager/NetworkManager.conf
 - name: Remove swaps from fstab
   lineinfile:
     dest: /etc/fstab

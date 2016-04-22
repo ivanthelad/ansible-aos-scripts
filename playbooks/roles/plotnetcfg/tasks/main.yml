@@ -1,0 +1,40 @@
+- name: Install ploting
+  yum:
+    pkg: git
+    state: present
+  tags: ose
+
+- name: Creates ploter directory
+  file: path=/opt/plotter state=directory
+  sudo: true
+
+- git: repo=https://github.com/jbenc/plotnetcfg 
+       dest=/opt/plotnetcfg
+#i#- name: download foo.conf
+#  get_url: url=http://www.digip.org/jansson/releases/jansson-2.7.tar.gz  dest=/opt/jansson-2.7.tar.gz
+
+- unarchive: src=http://www.digip.org/jansson/releases/jansson-2.7.tar.gz dest=/opt copy=no
+
+
+#i#- git: repo=https://github.com/akheron/jansson.git 
+#       dest=/opt/jansson
+- name: build plotter
+  command: "./configure  --prefix=/usr" 
+  args:
+    chdir: /opt/jansson-2.7
+  sudo: true
+- name: build plotter
+  command: "make clean"
+  args:
+    chdir: /opt/jansson-2.7
+  sudo: true
+- name: build plotter
+  command: " make install"
+  args:
+    chdir: /opt/jansson-2.7
+  sudo: true
+- name: build plotter 
+  command: make jansson=/opt/jansson-2.7
+  args:
+    chdir: /opt/plotnetcfg
+  sudo: true

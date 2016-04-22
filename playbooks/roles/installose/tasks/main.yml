@@ -1,0 +1,22 @@
+- name: Install ose
+  yum:
+    pkg: ansible
+    state: present
+  tags: ose
+
+- name: Set configuration file
+  template:
+    src: hosts.j2
+    dest: /etc/ansible/hosts
+  tags: ose
+#passwd -c -b  temp demo  demo
+#- name: execute install ose ansible playbook
+#  command: ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
+#  sudo: true
+
+#- name: Make sure Dnsmasq is running
+#  service:
+#    name: atomic-openshift-master
+#    state: started
+#    enabled: yes
+#  tags: ose
