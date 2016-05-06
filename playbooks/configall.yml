@@ -27,6 +27,12 @@
 - hosts: nodes
   roles:
     - { role: storage_docker }
+#i#- hosts: nodes 
+#  tasks: 
+#  - command: systemctl stop docker
+#  - command: lvremove -f /dev/VolGroup00/docker-pool
+#  - command: rm -rf /var/lib/docker
+   
 - hosts: masters
   roles:
     - { role: installose}

@@ -1,0 +1,66 @@
+- hosts: dns
+  tasks:
+#  - service: name=NetworkManager state=stopped
+#  - service: name=NetworkManager enabled=no
+  roles:
+    - { role: dnsmasq }
+- hosts: masters
+  tasks:
+  - name: Install Master stuff
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - atomic-openshift-utils
+  - name: upgrade all packages
+    yum: name=* state=latest
+#  - name: creating new LVM volume group
+#    lvg: vg={{ create_vgname }} pvs={{ docker_storage_device }} state=present
+#  - service: name=NetworkManager state=stopped
+#  - service: name=NetworkManager enabled=no
+#- hosts: masters
+#  roles:
+#    - { role: lv_create, create_lvname: 'registry-lv', create_vgname: 'docker_vg', new_mntp: '/mnt/registry', create_lvsize: '10240' }
+- hosts: nodes
+  tasks:
+  - command: systemctl stop docker
+    ignore_errors: True
+  - command: lvremove -f /dev/VolGroup00/docker-pool
+    ignore_errors: True
+  - command: rm -rf /var/lib/docker
+    ignore_errors: True
+  
+- hosts: nodes
+  tasks:
+  - name: removing existing docker
+    yum:
+      name: remove "{{ item }}"
+      state: absent
+    with_items:
+     - kubernetes
+       kubernetes-client
+       kubenetes-node
+  roles:
+    - { role: prereqs }
+- hosts: nodes
+  tasks:
+  - command: docker-storage-setup
+    ignore_errors: True 
+- hosts: masters
+  tasks: 
+  - name: removing existing docker 
+    yum:
+      name: remove "{{ item }}"
+      state: absent 
+    with_items:
+     - kubernetes
+       kubenetes-node
+       kubenetes-master
+       kubernetes-client
+  roles:
+    - { role: installose}
+
+
+
+
+

@@ -31,6 +31,7 @@ osm_cockpit_plugins=['cockpit-kubernetes']
 osm_use_cockpit=true
 [etcd:vars]
 etcd_interface=eth1
+#etcd_ip={{ ansible_interface_eth1.address }}
 # host group for masters
 [lb]
 192.168.144.4
