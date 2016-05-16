@@ -13,7 +13,7 @@
 
 [masters]
 192.168.144.2
-
+192.168.144.3
 
 [privilege_escalation]
 become=yes

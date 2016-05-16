@@ -8,7 +8,7 @@
 
 - name: Attach to OpenShift Pool
  # ignore_errors: yes
-  command: subscription-manager attach --pool={{ openshift_pool_id.stdout_lines[0] }}
+  command: subscription-manager attach --pool={{ openshift_pool_id.stdout_lines[1] }}
 - name: disable
   command: subscription-manager repos --disable="*"
 - name: enable

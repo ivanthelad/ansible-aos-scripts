@@ -1,0 +1,12 @@
+- hosts: masters nodes
+  tasks:
+  - name: Enable and Disable repositories 
+    command: subscription-manager repos --disable="rhel-7-server-ose-3.1-rpms"   --enable="rhel-7-server-ose-3.2-rpms"
+#i  - name: upgrade all packages
+#    yum: name=* state=latest
+- hosts: masters
+  tasks:
+  - name: update utils package on mastes
+    command:  yum update atomic-openshift-utils
+    
+

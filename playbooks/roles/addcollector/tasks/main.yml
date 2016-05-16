@@ -1,0 +1,4 @@
+- name: install collector
+  command: 'ovs-vsctl -- --id=@sflow create sflow agent=eth1 target=\"192.168.144.5:6343\" header=128 sampling=32 polling=10 -- set bridge br0 sflow=@sflow'
+  sudo: true
+

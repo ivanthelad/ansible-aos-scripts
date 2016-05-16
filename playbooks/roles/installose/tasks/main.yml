@@ -10,19 +10,19 @@
     dest: /etc/ansible/hosts
   tags: ose
 
-- name: 
+#- name: 
 ## https://github.com/openshift/openshift-ansible/issues/1750
-git clone https://github.com/openshift/openshift-ansible.git
-export ANSIBLE_FILTER_PLUGINS=openshift-ansible/filter_plugins
-export ANSIBLE_LOOKUP_PLUGINS=openshift-ansible/lookup_plugins 
+#git clone https://github.com/openshift/openshift-ansible.git
+#export ANSIBLE_FILTER_PLUGINS=openshift-ansible/filter_plugins
+#export ANSIBLE_LOOKUP_PLUGINS=openshift-ansible/lookup_plugins 
 
 
 
 ### # added this to opens the dns port 
 ## /usr/share/ansible/openshift-ansible/roles/haproxy/defaults/main.yml
 
-- service: apache port
-  port: "80/tcp"
+#- service: apache port
+#  port: "80/tcp"
 
 
 

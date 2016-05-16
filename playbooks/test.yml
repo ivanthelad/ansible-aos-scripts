@@ -1,0 +1,6 @@
+- hosts: nodes
+  tasks:
+  - debug: msg={{ hostvars[groups['nodes'][0]]['ansible_eth0']['ipv4']['address'] }}
+  - debug: msg={{ hostvars[groups['nodes'][0]]['ansible_hostname' ]}}
+
+#  - debug: msg={{ hostvars[headnode].ansible_eth0.ipv4.address }}

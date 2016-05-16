@@ -1,4 +1,4 @@
-#reate an OSEv3 group that contains the masters and nodes groups
+te an OSEv3 group that contains the masters and nodes groups
 [OSEv3:children]
 masters
 nodes
@@ -29,20 +29,25 @@ osm_controller_args={'resource-quota-sync-period': ['10s']}
 osm_api_server_args={'max-requests-inflight': ['400']}
 osm_cockpit_plugins=['cockpit-kubernetes']
 osm_use_cockpit=true
+
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=dns.example.com
+openshift_master_cluster_public_hostname=dns.example.com
+
 [etcd:vars]
 etcd_interface=eth1
 # host group for masters
 [lb]
 192.168.144.4
 [masters]
-ose3-master.example.com
-ose3-node1.example.com
+ose3-master.example.com openshift_ip=192.168.144.2
+ose3-node1.example.com openshift_ip=192.168.144.3
 [etcd]
 192.168.144.2
 192.168.144.3
 192.168.144.5
 # host group for nodes, includes region info
 [nodes]
-ose3-master.example.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-ose3-node1.example.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-ose3-node2.example.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
+ose3-master.example.com openshift_ip=192.168.144.2 openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+ose3-node1.example.com openshift_ip=192.168.144.3 openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+ose3-node2.example.com openshift_ip=192.168.144.5 openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
