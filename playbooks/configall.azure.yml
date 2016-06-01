@@ -1,0 +1,37 @@
+- hosts: masters
+  tasks:
+  - name: Install Master stuff
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - atomic-openshift-utils
+  - name: upgrade all packages
+    yum: name=* state=latest
+  - name: creating new LVM volume group
+    lvg: vg={{ create_vgname }} pvs={{ docker_storage_device }} state=present
+#  - service: name=NetworkManager state=stopped
+#  - service: name=NetworkManager enabled=no
+- hosts: masters
+  roles:
+    - { role: lv_create, create_lvname: 'registry-lv', create_vgname: 'docker_vg', new_mntp: '/mnt/registry', create_lvsize: '10240' }
+- hosts: nodes
+  roles:
+    - { role: prereqs }
+- hosts: nodes
+  roles:
+    - { role: storage_docker }
+#i#- hosts: nodes 
+#  tasks: 
+#  - command: systemctl stop docker
+#  - command: lvremove -f /dev/VolGroup00/docker-pool
+#  - command: rm -rf /var/lib/docker
+   
+#- hosts: masters
+#  roles:
+#    - { role: installose}
+#
+
+
+
+
