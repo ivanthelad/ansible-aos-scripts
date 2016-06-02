@@ -11,6 +11,6 @@ create_lvsize: '80%FREE'
 #create_lvsize: '2g'
 
 #### subscription information 
-rh-subcription-user:
-rh-subcription-pass:
+rh_subcription_user:
+rh_subcription_pass:
 openshift_pool_id: 8a85f9843e3d687a013e3ddd471a083e
