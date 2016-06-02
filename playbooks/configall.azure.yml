@@ -14,10 +14,10 @@
 #  - service: name=NetworkManager enabled=no
 - hosts: masters
   roles:
-    - { role: lv_create, create_lvname: 'registry-lv', create_vgname: 'docker_vg', new_mntp: '/mnt/registry', create_lvsize: '10240' }
+    - { role: lv_create, create_lvname: 'registry-lv', create_vgname: 'docker_vg', new_mntp: '/mnt/registry', create_lvsize: '40960' }
 - hosts: nodes
   roles:
-    - { role: prereqs }
+    - { role: prereqs_azure  }
 - hosts: nodes
   roles:
     - { role: storage_docker }

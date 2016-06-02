@@ -5,7 +5,7 @@
     - shell: echo 'Subscribing'
 
   roles:
-    - { role: subscribe, rhnuser: "", rhnpassword: "" }
+    - { role: subscribe, rhnuser: "{{ rh-subcription-user }}", rhnpassword: "{{ rh-subcription-pass }}" }
 
   tasks:
     - shell: echo 'still busy'

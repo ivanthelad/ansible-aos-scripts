@@ -1,8 +1,16 @@
+## used in combination with the proxy role 
+## 
 openshift_noproxy: "mhgaster.example.com,192.168.59.200"
 openshift_httpproxy: "ivan proyy"
+
+## docker info
 docker_storage_device: /dev/sdb
 create_vgname: docker_vg
-filesystem: 'ext4'
-#create_lvsize: '80%FREE'
-create_lvsize: '2g'
+filesystem: 'xfs'
+create_lvsize: '80%FREE'
+#create_lvsize: '2g'
 
+#### subscription information 
+rh-subcription-user:
+rh-subcription-pass:
+openshift_pool_id: 8a85f9843e3d687a013e3ddd471a083e
