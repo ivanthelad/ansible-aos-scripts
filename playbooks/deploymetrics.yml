@@ -1,0 +1,9 @@
+- hosts: localhost
+  connection: localhost
+  roles:
+    - { role: metrics, image_version: "latest", master_url: "https://:8443", hawkular_metrics_hostname: "hawkular-met", persistent: "true" } 
+
+
+
+
+

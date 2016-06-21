@@ -1,0 +1,5 @@
+- hosts: nodes:all
+  tasks:
+    - debug: msg="{{ hostvars[inventory_hostname]['ansible_eno16780032']['ipv4']['address'] }}" 
+    - name: disable puppet agent 
+      command: puppet agent --disable "Disabling puppet because of dns rotation issue"

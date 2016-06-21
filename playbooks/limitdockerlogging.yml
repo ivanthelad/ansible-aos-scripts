@@ -1,0 +1,5 @@
+- hosts: nodes:nodes
+  tasks:
+    - debug: msg="{{ hostvars[inventory_hostname]['ansible_eno16780032']['ipv4']['address'] }}" 
+    - shell: sed "s/OPTIONS='/OPTIONS='--log-opt max-size=50m/" /etc/sysconfig/docker
+

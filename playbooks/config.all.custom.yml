@@ -1,0 +1,25 @@
+- hosts: masters
+  tasks:
+  - name: Install Master stuff
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - atomic-openshift-utils
+      - httpd-tools 
+  - name: upgrade all packages
+    yum: name=* state=latest
+- hosts: nodes:infra
+  tasks: 
+  - name: creating new LVM volume group
+    lvg: vg=docker_vg pvs=/dev/sdb state=present
+  roles:
+    - { role: prereqs }
+- hosts: nodes:infra
+  roles:
+    - { role: storage_docker, docker_storage_device: "/dev/sdb", create_vgname: "docker_vg", filesystem: "xfs", create_lvsize: "80%FREE"  }
+   
+
+
+
+

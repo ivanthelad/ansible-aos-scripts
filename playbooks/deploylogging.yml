@@ -1,0 +1,17 @@
+- hosts: localhost
+  connection: localhost
+  roles:
+    - { role: logging, master_url: "https://:8443", kibana_hostname: "com", image_version: "latest", public_master_url: "https://:8443" }
+  tasks:
+    - shell: "echo sleeping for 100 seconds "
+    - shell: sleep 100
+    - name: grep
+      shell: "oc get dc -n logging | awk '{print $1}' | grep logging-es "
+      register: result
+    - debug: msg="{{ result.stdout  }}"
+    - shell: " oc get dc {{ result.stdout  }} -n logging "
+      register: dc
+    - debug: msg=" changing deployment config  {{ dc  }}"
+    - shell: "oc volume deploymentconfigs {{ result.stdout  }}  --add --overwrite --name=elasticsearch-storage --type=persistentVolumeClaim --claim-name=elastic-search-claim"
+    - shell: "oc scale dc/logging-fluentd --replicas=6" 
+      name: "Scalling to fluentd 6 replicas" 

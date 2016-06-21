@@ -1,0 +1,10 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - shell: oc delete all --selector logging-infra=kibana -n logging
+    - shell: oc delete all --selector logging-infra=fluentd -n logging 
+    - shell: oc delete all --selector logging-infra=elasticsearch -n logging
+    - shell: oc delete all --selector logging-infra=curator -n logging 
+    - shell: oc delete all,sa,oauthclient --selector logging-infra=support -n logging
+    - shell: oc delete secret logging-fluentd logging-elasticsearch logging-es-proxy logging-kibana logging-kibana-proxy logging-kibana-ops-proxy -n logging 
+

@@ -1,0 +1,24 @@
+---
+- name: Try to stop docker.  This might fail (loopback startup issue)
+  service:
+    name: docker
+    state: started
+- name:
+  service:
+    name: atomic-openshift-node
+    state: restarted
+  ignore_errors: yes
+- name: Try to stop docker.  This might fail (loopback startup issue)
+  service:
+    name: docker
+    state: stopped
+
+
+- name: 
+  command: lvremove docker_vg/docker-pool -y
+  ignore_errors: yes
+- name: delete docker storage 
+  command: "rm -rf /var/lib/docker/*"
+  ignore_errors: yes
+- name: 
+  command: rm /etc/sysconfig/docker-storage

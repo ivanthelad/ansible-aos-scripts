@@ -1,0 +1,21 @@
+- hosts: localhost
+  connection: localhost
+
+
+
+  tasks:
+    - name: Check if Registy exists
+      shell: oadm registry
+      register: reg
+      ignore_errors: True
+      failed_when: False
+
+    - shell: echo 'Installing registry'
+      when: reg.rc != 0
+    - command: "mkdir /mnt/registry"
+      ignore_errors: yes
+      when: reg.rc != 0 
+    - command: "chown 1001:root /mnt/registry"
+      when: reg.rc != 0
+    - command: "oadm registry --selector='kubernetes.io/hostname=' --service-account=registry --config=/etc/origin/master/admin.kubeconfig  --credentials=/etc/origin/master/openshift-registry.kubeconfig  --images='registry.access.redhat.com/openshift3/ose-${component}:${version}'     --mount-host=/mnt/registry" 
+      when: reg.rc != 0
