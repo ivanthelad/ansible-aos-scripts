@@ -4,6 +4,10 @@
 #  - service: name=NetworkManager enabled=no
   roles:
     - { role: dnsmasq }
+- hosts: masters:nodes
+  roles:
+    - { role: clean_docker, vg_name: "VolGroup00" }
+
 - hosts: masters
   tasks:
   - name: Install Master stuff
@@ -21,11 +25,17 @@
 - hosts: masters
   roles:
     - { role: lv_create, create_lvname: 'registry-lv', create_vgname: 'docker_vg', new_mntp: '/mnt/registry', create_lvsize: '10240' }
+    - { role: prereqs }
+
 - hosts: nodes
   roles:
     - { role: prereqs }
-- hosts: nodes
+
+- hosts: nodes:masters
+  tags: 
+    - storage_docker
   roles:
+#    - { role: clean_docker, vg_name: "docker_vg" }
     - { role: storage_docker }
 #i#- hosts: nodes 
 #  tasks: 
@@ -34,6 +44,8 @@
 #  - command: rm -rf /var/lib/docker
    
 - hosts: masters
+  tags:
+    - installose
   roles:
     - { role: installose}
 

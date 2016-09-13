@@ -15,7 +15,7 @@
 
 
 - name: 
-  command: lvremove docker_vg/docker-pool -y
+  command: lvremove {{ vg_name }}/docker-pool -y
   ignore_errors: yes
 - name: delete docker storage 
   command: "rm -rf /var/lib/docker/*"

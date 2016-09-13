@@ -4,6 +4,7 @@
 #  - service: name=NetworkManager enabled=no
   roles:
     - { role: dnsmasq }
+
 - hosts: masters
   tasks:
   - name: Install Master stuff
