@@ -1,0 +1,9 @@
+- hosts: nfs
+  become: true
+  roles:
+    - nfsserver
+
+- hosts: nodes
+  become: true
+  roles:
+    - nfsclient
