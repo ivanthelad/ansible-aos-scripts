@@ -1,0 +1,30 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: creating new LVM volume group
+      lvg: vg=docker_vg pvs=/dev/sdd state=present
+- hosts: localhost
+  connection: local
+  roles:
+    - { role: lv_create, filesystem: "xfs", create_lvname: 'origin', create_vgname: 'docker_vg', new_mntp: '/var/lib/origin', create_lvsize: '3G' }
+    - { role: lv_create, filesystem: "xfs", create_lvname: 'logs', create_vgname: 'docker_vg', new_mntp: '/var/log', create_lvsize: '2G' }
+    - { role: lv_create, filesystem: "xfs", create_lvname: 'etcd', create_vgname: 'docker_vg', new_mntp: '/var/lib/etcd', create_lvsize: '2G' }
+
+- hosts: localhost
+  tasks: 
+    - name: copy the docker-storage-setup config file
+      copy:
+      content: >
+         VG={{ create_vgname }}
+      dest: /etc/sysconfig/docker-storage-setup
+      owner: root
+      group: root
+      mode: 0664
+      
+- name: docker storage setup
+  command: docker-storage-setup
+  register: docker_storage_setup_output
+  
+    
+    
+    
